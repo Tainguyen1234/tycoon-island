@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#101a38">
+<title>TYCOON ISLAND — V0.1</title>
+<style>
+:root{--ink:#17213e;--muted:#687391;--gold:#ffd45c;--panel:#fffdf7;--blue:#55c8ff;--pink:#ff7fba;--green:#65d8a0;--shadow:0 12px 28px #101a3830}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--ink);background:radial-gradient(ellipse at 50% 0%,#435c9a 0,#17264d 48%,#0d1530 100%);overscroll-behavior:none}
+body{padding:12px 12px 28px}.app{max-width:760px;margin:auto}
+header{display:flex;align-items:center;justify-content:space-between;color:white;padding:4px 3px 12px;gap:8px}
+.brand{font-weight:1000;letter-spacing:.4px;font-size:clamp(17px,4vw,25px);line-height:1.02;text-shadow:0 3px 0 #25366b}
+.brand span{display:block;color:#ffe17c;font-size:10px;letter-spacing:2.5px;margin-top:5px}
+.pill{border:1px solid #ffffff40;background:#ffffff16;color:white;border-radius:99px;padding:7px 10px;font-size:11px;font-weight:800}
+.status{display:flex;gap:7px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+.game-shell{background:linear-gradient(145deg,#f9fcff,#dceaff);border:3px solid #fff;border-radius:24px;padding:10px;box-shadow:0 20px 45px #050c2466}
+.scene{position:relative;perspective:1000px;padding:5px 4px 18px}
+.board{position:relative;width:100%;aspect-ratio:1/1;transform:rotateX(8deg) rotateZ(0deg);transform-style:preserve-3d;filter:drop-shadow(0 14px 7px #18244c40)}
+.board-base{position:absolute;inset:8%;border-radius:23px;background:linear-gradient(145deg,#b7e7ff,#83c4ec 50%,#6aa7d9);border:7px solid #e9f7ff;box-shadow:inset 0 -13px 0 #4286b8,0 14px 0 #2d6399;transform:translateZ(-12px)}
+.center{position:absolute;inset:25%;border-radius:22px;background:linear-gradient(145deg,#fff4bf,#ffe08b 65%,#f7b84d);border:4px solid #fff9df;box-shadow:inset 0 -8px 0 #e6a943,0 6px 0 #c98d38;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;overflow:hidden;transform:translateZ(9px)}
+.center:before,.center:after{content:"";position:absolute;border-radius:50%;background:#fff8;filter:blur(1px)}
+.center:before{width:90px;height:90px;top:-35px;right:-20px}.center:after{width:60px;height:60px;bottom:-24px;left:-10px}
+.logo-orb{font-size:clamp(32px,8vw,54px);filter:drop-shadow(0 5px 0 #d99a36);z-index:1;animation:bob 2.4s ease-in-out infinite}
+.center h2{font-size:clamp(10px,2.6vw,17px);line-height:1.1;margin:4px 0 2px;font-weight:1000;color:#68421a;z-index:1}
+.center p{font-size:9px;font-weight:800;color:#8b642d;margin:0;z-index:1}
+.skyline{position:absolute;bottom:13%;left:12%;right:12%;height:26%;display:flex;align-items:end;justify-content:center;gap:5px;opacity:.65}
+.skyline i{display:block;width:10%;border-radius:5px 5px 1px 1px;background:linear-gradient(#fff,#f6a84b);border:2px solid #fff8;box-shadow:inset 0 8px #fff8}
+.skyline i:nth-child(1){height:42%}.skyline i:nth-child(2){height:70%}.skyline i:nth-child(3){height:100%;width:14%}.skyline i:nth-child(4){height:57%}.skyline i:nth-child(5){height:80%}
+.tile{position:absolute;width:14.5%;height:14.5%;border-radius:10px;border:2px solid #fff;box-shadow:0 5px 0 #7d91a9,0 7px 9px #26375b35;background:linear-gradient(145deg,#fff,#e9f2ff);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:3px;transform:translateZ(17px);font-size:clamp(8px,2.1vw,11px);font-weight:900;line-height:1.05;overflow:visible}
+.tile .emoji{font-size:clamp(17px,4vw,25px);line-height:1.15;filter:drop-shadow(0 2px 0 #0002)}
+.tile small{font-size:8px;color:#66718b;margin-top:2px}
+.tile.property:before{content:"";position:absolute;top:0;left:0;right:0;height:5px;background:var(--color,#6bc8ff);border-radius:9px 9px 0 0}
+.tile.special{background:linear-gradient(145deg,#fff7d8,#ffe5a1);border-color:#fff4ce}
+.tile.start{background:linear-gradient(145deg,#d9ffe8,#8ce8b6);border-color:#effff5}
+.tile.tax{background:linear-gradient(145deg,#ffe5e5,#ffbaba)}
+.tile .owned{position:absolute;right:3px;top:6px;width:9px;height:9px;border:2px solid white;border-radius:50%;background:#5368a8}
+.tile .level{position:absolute;left:3px;top:6px;font-size:8px;color:#8a5a12}
+.pawn{position:absolute;z-index:9;font-size:clamp(16px,4vw,24px);filter:drop-shadow(0 3px 1px #24365b66);transform:translateZ(35px);transition:all .35s cubic-bezier(.2,.8,.2,1);pointer-events:none}
+.players{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;margin:10px 0}
+.player{background:#fff;border:2px solid transparent;border-radius:14px;padding:8px 10px;display:flex;align-items:center;gap:8px;box-shadow:0 3px 0 #c4d3e7;min-width:0}
+.player.active{border-color:#ffbd35;box-shadow:0 0 0 3px #ffdf8a,0 3px 0 #c4d3e7}
+.avatar{font-size:25px}.pname{font-size:11px;font-weight:950;white-space:nowrap}.cash{font-size:11px;color:#26875a;font-weight:900}.pmeta{min-width:0}
+.controls{background:#fff;border-radius:18px;padding:12px;box-shadow:0 5px 0 #c7d7e9}
+.turnline{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:9px}
+.turntitle{font-weight:1000;font-size:14px}.hint{font-size:10px;color:var(--muted);font-weight:700}
+.actions{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+button{border:0;border-radius:13px;padding:12px 8px;font-weight:950;font-size:12px;cursor:pointer;touch-action:manipulation;box-shadow:0 4px 0 #0002;transition:transform .1s,filter .1s}
+button:active{transform:translateY(3px);box-shadow:0 1px 0 #0002}
+button:disabled{opacity:.4;filter:grayscale(.6);cursor:not-allowed}
+.primary{background:linear-gradient(180deg,#ffdc6a,#ffb52e);color:#593a0b}.secondary{background:linear-gradient(180deg,#70dcff,#36aeea);color:#073d62}.soft{background:#edf2fb;color:#42506d}
+.log{margin-top:9px;background:#f2f6ff;border-radius:12px;padding:9px 11px;font-size:11px;line-height:1.45;color:#53617e;min-height:43px}
+.toast{position:fixed;left:50%;bottom:18px;transform:translate(-50%,120px);background:#17213e;color:white;border:1px solid #ffffff30;border-radius:14px;padding:11px 16px;font-size:12px;font-weight:850;box-shadow:var(--shadow);transition:transform .3s;z-index:50;max-width:90%;text-align:center}.toast.show{transform:translate(-50%,0)}
+.modal-back{position:fixed;inset:0;background:#0b143dcc;display:none;align-items:center;justify-content:center;padding:20px;z-index:40}.modal-back.show{display:flex}
+.modal{background:#fffdf7;border-radius:22px;padding:20px;max-width:340px;width:100%;text-align:center;box-shadow:0 20px 60px #0006}.modal h3{margin:4px 0 8px;font-size:20px}.modal p{font-size:13px;color:#5f6b85;line-height:1.45}.modal .big{font-size:48px}.modal-buttons{display:flex;gap:8px;margin-top:14px}.modal-buttons button{flex:1}
+footer{text-align:center;color:#c5d3f4;font-size:9px;padding:12px 4px 0;opacity:.8}
+@keyframes bob{50%{transform:translateY(-5px) rotate(4deg)}}
+@media(min-width:620px){.game-shell{padding:18px}.tile{width:14.5%;height:14.5%}.players{grid-template-columns:repeat(4,1fr)}}
+</style>
+</head>
+<body>
+<div class="app">
+<header><div class="brand">TYCOON ISLAND <span>ĐẢO THỊNH VƯỢNG · BOARD GAME · V0.1</span></div><div class="status"><span class="pill">🎲 2–4 NGƯỜI</span><span class="pill">✨ BẢN THỬ</span></div></header>
+<div class="game-shell">
+<div class="scene"><div class="board" id="board"><div class="board-base"></div><div class="center"><div class="logo-orb">🌟</div><h2>VŨ TRỤ<br>THỊNH VƯỢNG</h2><p>XÂY ĐẢO – TẠO ĐẾ CHẾ</p><div class="skyline"><i></i><i></i><i></i><i></i><i></i></div></div></div></div>
+<div class="players" id="players"></div>
+<div class="controls">
+<div class="turnline"><div><div class="turntitle" id="turnTitle">Lượt của Bé Nova</div><div class="hint" id="turnHint">Tung xúc xắc để bắt đầu hành trình!</div></div><div id="dice" style="font-size:35px;min-width:42px;text-align:center">🎲</div></div>
+<div class="actions"><button class="primary" id="rollBtn">🎲 TUNG XÚC XẮC</button><button class="secondary" id="buyBtn" disabled>🏗️ MUA / XÂY</button><button class="soft" id="endBtn" disabled>➡️ KẾT THÚC</button></div>
+<div class="log" id="log">Chào mừng đến với TYCOON ISLAND! Tung xúc xắc, khám phá các hòn đảo và xây dựng thành phố của riêng bạn.</div>
+</div>
+</div>
+<footer>© TYCOON ISLAND · ROLL THE DICE · BUILD YOUR EMPIRE</footer>
+</div>
+<div class="toast" id="toast"></div>
+<div class="modal-back" id="modal"><div class="modal"><div class="big" id="modalEmoji">🏙️</div><h3 id="modalTitle">Chào mừng!</h3><p id="modalText">Bắt đầu xây dựng đế chế của bạn.</p><div class="modal-buttons"><button class="primary" id="modalOk">TIẾP TỤC</button></div></div></div>
+<script>
+const spaces=[
+{name:"BẾN KHỞI HÀNH",type:"start",emoji:"🚀",price:0},
+{name:"Vườn Mây",type:"property",emoji:"🌳",price:100,rent:18,color:"#65d8a0"},
+{name:"Hộp Bí Ẩn",type:"event",emoji:"🎁"},
+{name:"Phố Bong Bóng",type:"property",emoji:"🫧",price:130,rent:24,color:"#62caff"},
+{name:"Thuế Năng Lượng",type:"tax",emoji:"⚡",amount:80},
+{name:"Cầu Cầu Vồng",type:"property",emoji:"🌈",price:160,rent:30,color:"#ff91bf"},
+{name:"Phi Thuyền Sự Kiện",type:"event",emoji:"🛸"},
+{name:"Đảo Kẹo Ngọt",type:"property",emoji:"🍭",price:190,rent:38,color:"#ff9e70"},
+{name:"Trạm Dịch Chuyển",type:"special",emoji:"🌀"},
+{name:"Phố Ánh Sao",type:"property",emoji:"🌟",price:220,rent:45,color:"#a98bff"},
+{name:"Hộp Bí Ẩn",type:"event",emoji:"🎁"},
+{name:"Tháp Công Nghệ",type:"property",emoji:"🏙️",price:250,rent:52,color:"#55c8ff"},
+{name:"Quỹ Cộng Đồng",type:"tax",emoji:"💝",amount:60},
+{name:"Cảng Mặt Trăng",type:"property",emoji:"🌙",price:280,rent:60,color:"#9aa8ff"},
+{name:"Vòng Quay May Mắn",type:"event",emoji:"🎡"},
+{name:"Khu Sinh Thái",type:"property",emoji:"🌺",price:310,rent:70,color:"#65d8a0"},
+{name:"Cổng Tăng Tốc",type:"special",emoji:"🚄"},
+{name:"Đại Lộ Pha Lê",type:"property",emoji:"💎",price:350,rent:82,color:"#69d8e8"},
+{name:"Hộp Bí Ẩn",type:"event",emoji:"🎁"},
+{name:"Thành Phố Tương Lai",type:"property",emoji:"🌆",price:390,rent:95,color:"#ffbd55"}
+];
+const coords=[
+[50,84],[29,84],[9,84],[9,63],[9,42],[9,21],[9,2],[29,2],[50,2],[71,2],[91,2],[91,21],[91,42],[91,63],[91,84],[71,84],[50,84],[29,84],[9,84],[9,63]
+];
+// Use a 5x5 perimeter arrangement with 20 unique tile centers.
+const positions=[
+[90,84],[74,84],[58,84],[42,84],[26,84],[10,84],
+[10,68],[10,52],[10,36],[10,20],
+[10,4],[26,4],[42,4],[58,4],[74,4],[90,4],
+[90,20],[90,36],[90,52],[90,68]
+];
+const players=[
+{name:"Bé Nova",emoji:"🧑‍🚀",color:"#53b9f2",cash:1200,pos:0,ai:false,props:[]},
+{name:"Foxi",emoji:"🦊",color:"#ff9d43",cash:1200,pos:0,ai:true,props:[]},
+{name:"Mimi",emoji:"🐰",color:"#f47db5",cash:1200,pos:0,ai:true,props:[]},
+{name:"Robo",emoji:"🤖",color:"#8d83ef",cash:1200,pos:0,ai:true,props:[]}
+];
+let current=0,rolled=false,gameOver=false,turnCount=1;
+const board=document.getElementById("board"),playersEl=document.getElementById("players"),rollBtn=document.getElementById("rollBtn"),buyBtn=document.getElementById("buyBtn"),endBtn=document.getElementById("endBtn"),logEl=document.getElementById("log");
+function makeBoard(){
+ spaces.forEach((s,i)=>{let p=positions[i],el=document.createElement("div");el.className="tile "+s.type;el.style.left=p[0]+"%";el.style.top=p[1]+"%";el.style.transform=`translate(-50%,-50%) translateZ(17px)`;if(s.color)el.style.setProperty("--color",s.color);el.id="tile"+i;el.innerHTML=`<span class="emoji">${s.emoji}</span><span>${s.name}</span>${s.price?`<small>${s.price} xu</small>`:""}<span class="owned" id="owned${i}" style="display:none"></span><span class="level" id="level${i}"></span>`;board.appendChild(el)});
+ players.forEach((p,i)=>{let pawn=document.createElement("div");pawn.className="pawn";pawn.id="pawn"+i;pawn.textContent=p.emoji;board.appendChild(pawn)});
+}
+function render(){
+ playersEl.innerHTML="";
+ players.forEach((p,i)=>{let d=document.createElement("div");d.className="player"+(i===current?" active":"");d.innerHTML=`<div class="avatar">${p.emoji}</div><div class="pmeta"><div class="pname">${p.name}${p.ai?" · AI":""}</div><div class="cash">🪙 ${p.cash.toLocaleString("vi-VN")} xu</div></div>`;playersEl.appendChild(d)});
+ spaces.forEach((s,i)=>{let owner=players.findIndex(p=>p.props.includes(i));let dot=document.getElementById("owned"+i);if(dot){dot.style.display=owner>=0?"block":"none";if(owner>=0)dot.style.background=players[owner].color}let lv=document.getElementById("level"+i);if(lv)lv.textContent=(s.level>0?"★".repeat(s.level):"")});
+ players.forEach((p,i)=>{let el=document.getElementById("pawn"+i),pos=positions[p.pos];let offset=[[-8,-8],[8,-8],[-8,8],[8,8]][i];el.style.left=`calc(${pos[0]}% + ${offset[0]}px)`;el.style.top=`calc(${pos[1]}% + ${offset[1]}px)`;el.style.transform="translate(-50%,-75%) translateZ(35px)"});
+ document.getElementById("turnTitle").textContent=gameOver?"Ván chơi kết thúc":`Lượt của ${players[current].name}`;
+ document.getElementById("turnHint").textContent=players[current].ai?"Đối thủ đang suy nghĩ...":rolled?"Bạn đã di chuyển. Hãy chọn hành động.":"Tung xúc xắc để bắt đầu hành trình!";
+ rollBtn.disabled=rolled||gameOver||players[current].ai;buyBtn.disabled=!rolled||gameOver||players[current].ai;endBtn.disabled=!rolled||gameOver||players[current].ai;
+}
+function say(t){logEl.textContent=t}
+function toast(t){let el=document.getElementById("toast");el.textContent=t;el.classList.add("show");setTimeout(()=>el.classList.remove("show"),2100)}
+function modal(emoji,title,text,cb){document.getElementById("modalEmoji").textContent=emoji;document.getElementById("modalTitle").textContent=title;document.getElementById("modalText").textContent=text;document.getElementById("modal").classList.add("show");document.getElementById("modalOk").onclick=()=>{document.getElementById("modal").classList.remove("show");if(cb)cb()}}
+function ownerOf(index){return players.findIndex(p=>p.props.includes(index))}
+function movePlayer(pi,steps,done){
+ let p=players[pi],target=p.pos+steps,passed=target>=spaces.length;p.pos=target%spaces.length;if(passed){p.cash+=200;toast("🚀 Qua bến khởi hành: +200 xu!")}
+ render();document.getElementById("dice").textContent=["⚀","⚁","⚂","⚃","⚄","⚅"][steps-1];
+ setTimeout(()=>resolveSpace(pi,done),420);
+}
+function resolveSpace(pi,done){
+ let p=players[pi],s=spaces[p.pos],owner=ownerOf(p.pos);
+ if(s.type==="property"){
+  if(owner<0){say(`${p.name} đến ${s.name}. Giá mua ${s.price} xu, tiền thuê cơ bản ${s.rent} xu.`);if(pi!==0&&p.cash>=s.price+100&&Math.random()>.25){buyProperty(pi);say(`${p.name} đã mua ${s.name}!`)}}
+  else if(owner!==pi){let rent=s.rent*(1+(s.level||0));p.cash-=rent;players[owner].cash+=rent;say(`${p.name} trả ${rent} xu tiền thuê cho ${players[owner].name}.`);if(p.cash<0)bankrupt(pi)}
+  else {say(`${p.name} ghé thăm ${s.name} của chính mình. Có thể nâng cấp công trình.`)}
+ }else if(s.type==="tax"){p.cash-=s.amount;say(`${p.name} đóng ${s.amount} xu vào ${s.name}.`);if(p.cash<0)bankrupt(pi)}
+ else if(s.type==="event"){let events=[["🎉","Thưởng lễ hội","+120 xu",120],["☄️","Mưa sao băng","Mất 70 xu",-70],["🎁","Hộp quà bất ngờ","+80 xu",80],["📦","Đơn hàng lớn","+150 xu",150],["🔧","Sửa chữa phương tiện","Mất 50 xu",-50]];let e=events[Math.floor(Math.random()*events.length)];p.cash+=e[3];say(`${p.name}: ${e[1]} (${e[2]}).`);toast(`${e[0]} ${e[1]}!`);if(p.cash<0)bankrupt(pi)}
+ else if(s.type==="special"){p.cash+=50;say(`${p.name} kích hoạt cổng dịch chuyển và nhận 50 xu thưởng!`)}
+ render();if(done)done();
+}
+function buyProperty(pi){let p=players[pi],s=spaces[p.pos];if(ownerOf(p.pos)>=0||s.type!=="property"||p.cash<s.price)return false;p.cash-=s.price;p.props.push(p.pos);render();return true}
+function build(){let p=players[current],s=spaces[p.pos];if(s.type!=="property"||ownerOf(p.pos)!==current){toast("Bạn cần đứng trên khu đất của mình để nâng cấp.");return}let cost=Math.round(s.price*.65);if(p.cash<cost){toast("Chưa đủ xu để nâng cấp!");return}s.level=(s.level||0)+1;p.cash-=cost;s.rent=Math.round(s.rent*1.5);render();say(`${p.name} nâng cấp ${s.name} lên cấp ${s.level}! Tiền thuê tăng.`)}
+function bankrupt(pi){let p=players[pi];if(p.cash>=0)return;p.props.forEach(i=>{spaces[i].level=0});p.props=[];p.cash=0;if(pi===0){gameOver=true;modal("💫","Bạn đã hết vốn!","Đế chế của bạn cần một chiến lược mới. Hãy chơi lại để thử vận may.",()=>location.reload())}else{p.eliminated=true;toast(`${p.name} đã phá sản!`)}let active=players.filter(x=>!x.eliminated);if(active.length===1){gameOver=true;modal("🏆","Nhà vô địch!",`${active[0].name} đã trở thành tỷ phú của Vũ Trụ Thịnh Vượng!`,()=>location.reload())}}
+function nextTurn(){if(gameOver)return;current=(current+1)%players.length;while(players[current].eliminated)current=(current+1)%players.length;if(current===0)turnCount++;rolled=false;render();if(players[current].ai)setTimeout(aiTurn,750)}
+function aiTurn(){if(gameOver||!players[current].ai)return;let d=1+Math.floor(Math.random()*6);say(`${players[current].name} tung được ${d} điểm...`);movePlayer(current,d,()=>{let p=players[current],s=spaces[p.pos];if(s.type==="property"&&ownerOf(p.pos)<0&&p.cash>=s.price+100)buyProperty(current);else if(s.type==="property"&&ownerOf(p.pos)===current&&p.cash>Math.round(s.price*.65)+150)buildAI(current);setTimeout(nextTurn,850)})}
+function buildAI(pi){let p=players[pi],s=spaces[p.pos],cost=Math.round(s.price*.65);p.cash-=cost;s.level=(s.level||0)+1;s.rent=Math.round(s.rent*1.5)}
+rollBtn.onclick=()=>{if(rolled||gameOver)return;rolled=true;render();let d=1+Math.floor(Math.random()*6);say(`${players[current].name} tung xúc xắc được ${d} điểm!`);movePlayer(current,d)};
+buyBtn.onclick=()=>{let p=players[current],s=spaces[p.pos];if(s.type==="property"&&ownerOf(p.pos)<0){if(buyProperty(current)){say(`${p.name} đã mua ${s.name}. Một mảnh ghép mới của đế chế!`);toast("🏗️ Mua đất thành công!")}else toast("Không đủ xu để mua!")}else build();render()};
+endBtn.onclick=()=>nextTurn();
+makeBoard();render();
+</script>
+</body>
+</html>

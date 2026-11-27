@@ -11,13 +11,8 @@ main{padding:0 12px;margin-top:-17px}.wallet{display:flex;align-items:center;jus
 .island{position:absolute;z-index:1;inset:17%;border:3px solid #fff5d9;border-radius:18px;background:radial-gradient(ellipse at 35% 20%,#fff8d7,#ffe5a0 58%,#f1bf58);box-shadow:inset 0 -8px 0 #dca344,0 5px 0 #d29c40,0 9px 15px #3b64742c;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;overflow:hidden}.island .icon{font-size:clamp(29px,8vw,48px);filter:drop-shadow(0 4px 0 #d29a3e);animation:float 3s ease-in-out infinite}.island b{font-size:clamp(10px,2.8vw,16px);color:#65451c;z-index:1;margin-top:3px}.island small{font-size:7px;letter-spacing:1px;color:#8a6938;font-weight:950;margin-top:3px}.mini-city{position:absolute;bottom:7%;display:flex;align-items:end;gap:3px;opacity:.75}.mini-city i{display:block;width:10px;border:1px solid white;border-bottom:0;border-radius:3px 3px 0 0;background:linear-gradient(90deg,#fff,#f1a24a)}.mini-city i:nth-child(1){height:14px}.mini-city i:nth-child(2){height:23px}.mini-city i:nth-child(3){height:32px;width:13px}.mini-city i:nth-child(4){height:19px}
 .pawn{position:absolute;z-index:5;font-size:clamp(17px,4.5vw,25px);transform:translate(-50%,-75%);filter:drop-shadow(0 3px 2px #29415a70);transition:left .42s cubic-bezier(.2,.8,.2,1),top .42s cubic-bezier(.2,.8,.2,1);pointer-events:none}
 .roster{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;margin:10px 0}.player{display:flex;align-items:center;gap:7px;min-width:0;padding:8px;border:1px solid var(--line);border-radius:12px;background:white}.player.active{border-color:#e8bc58;background:#fff9e9;box-shadow:0 0 0 2px #ffefc7}.avatar{font-size:23px}.pname{font-size:10px;font-weight:950;white-space:nowrap}.cash{font-size:9px;color:#19865d;font-weight:900;margin-top:2px}
-.play-panel{background:#fff;border:1px solid var(--line);border-radius:18px;padding:12px;box-shadow:0 8px 22px #17364b0b}.play-head{display:flex;align-items:center;justify-content:space-between;gap:8px}.play-head b{font-size:13px}.play-head small{display:block;color:var(--muted);font-size:9px;margin-top:3px}.dice-stage{width:78px;height:72px;display:grid;place-items:center;perspective:600px;background:radial-gradient(circle at 35% 25%,#fff,#eaf0f5 72%);border:1px solid #dce6ed;border-radius:15px;box-shadow:inset 0 1px 2px #fff,0 3px 8px #29445a12;overflow:visible}
-.cube{position:relative;width:48px;height:48px;-webkit-transform-style:preserve-3d;transform-style:preserve-3d;transform:rotateX(-24deg) rotateY(-32deg) rotateZ(-5deg);transition:none;transform-origin:50% 50%;will-change:transform;filter:drop-shadow(0 6px 4px #20394d55)}
-.cube.rest{transform:rotateX(-24deg) rotateY(-32deg) rotateZ(-5deg)}
-.face{position:absolute;left:0;top:0;width:48px;height:48px;box-sizing:border-box;border-radius:10px;border:1px solid #cbd7e0;background:linear-gradient(145deg,#fff 0%,#f5f8fb 48%,#dce5ed 100%);box-shadow:inset 0 2px 3px #fff,inset 0 -2px 3px #cbd6df;display:grid;grid-template:repeat(3,1fr)/repeat(3,1fr);padding:6px;gap:2px;-webkit-backface-visibility:hidden;backface-visibility:hidden}
-.face i{display:block;border-radius:50%;background:radial-gradient(circle at 35% 30%,#46647d,#102b43 72%);align-self:center;justify-self:center;width:7px;height:7px;box-shadow:0 1px 1px #fff8}.front{transform:translateZ(24px)}.back{transform:rotateY(180deg) translateZ(24px)}.right{transform:rotateY(90deg) translateZ(24px)}.left{transform:rotateY(-90deg) translateZ(24px)}.topface{transform:rotateX(90deg) translateZ(24px)}.bottom{transform:rotateX(-90deg) translateZ(24px)}
-.cube.rolling{-webkit-animation:spinCube 1.4s cubic-bezier(.12,.72,.18,1) 1 forwards;animation:spinCube 1.4s cubic-bezier(.12,.72,.18,1) 1 forwards}
-@keyframes spinCube{0%{transform:rotateX(-24deg) rotateY(-32deg) rotateZ(-5deg) translateY(0)}25%{transform:rotateX(156deg) rotateY(328deg) rotateZ(175deg) translateY(-8px)}65%{transform:rotateX(456deg) rotateY(688deg) rotateZ(355deg) translateY(-5px)}100%{transform:rotateX(696deg) rotateY(1048deg) rotateZ(715deg) translateY(0)}}
+.play-panel{background:#fff;border:1px solid var(--line);border-radius:18px;padding:12px;box-shadow:0 8px 22px #17364b0b}.play-head{display:flex;align-items:center;justify-content:space-between;gap:8px}.play-head b{font-size:13px}.play-head small{display:block;color:var(--muted);font-size:9px;margin-top:3px}.dice-stage{width:84px;height:78px;display:grid;place-items:center;background:radial-gradient(circle at 35% 25%,#fff,#eaf0f5 72%);border:1px solid #dce6ed;border-radius:15px;box-shadow:inset 0 1px 2px #fff,0 3px 8px #29445a12;overflow:hidden}
+#diceCanvas{display:block;width:76px;height:76px;max-width:100%;touch-action:none}
 .controls{display:grid;grid-template-columns:1.15fr 1fr .8fr;gap:6px;margin-top:10px}button{border:0;border-radius:11px;padding:12px 4px;font-size:9px;font-weight:950;cursor:pointer;touch-action:manipulation}button:disabled{opacity:.35;filter:grayscale(.3)}.roll{background:linear-gradient(#ffdc7c,#f0b83e);color:#62430e;box-shadow:0 3px 0 #d29b36}.buy{background:linear-gradient(#75d6e8,#3daac7);color:#083d50;box-shadow:0 3px 0 #278ba7}.pass{background:#eaf0f5;color:#506478}
 .action-info{margin-top:9px;background:#f3f7fa;border-radius:11px;padding:9px 10px;min-height:43px;font-size:10px;line-height:1.4;color:#536b7f}.action-info strong{color:#1c4058}.toast{position:fixed;left:50%;bottom:18px;transform:translate(-50%,100px);background:#10263b;color:white;padding:11px 15px;border-radius:12px;font-size:11px;font-weight:850;transition:.25s;z-index:20;max-width:90%;text-align:center}.toast.show{transform:translate(-50%,0)}
 .overlay{position:fixed;inset:0;background:#0c2036bb;display:none;align-items:center;justify-content:center;padding:20px;z-index:30}.overlay.show{display:flex}.dialog{width:min(340px,100%);background:#fff;border-radius:20px;padding:18px;text-align:center;box-shadow:0 20px 55px #06162655}.dialog .symbol{font-size:38px}.dialog h3{margin:6px 0;font-size:18px}.dialog p{font-size:11px;color:#687c8e;line-height:1.45}.dialog .choices{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.dialog button{flex:1;min-width:90px}.dialog button.choice-main{background:linear-gradient(#ffdc7c,#f0b83e);color:#62430e}.dialog button.choice-alt{background:#eaf0f5;color:#40586e}
@@ -32,7 +27,7 @@ footer{text-align:center;color:#91a2b0;font-size:8px;padding:13px}
 <div class="mission"><div class="mission-top"><span>🎯 HỢP ĐỒNG ĐẦU TƯ</span><span id="missionCount">0 / 3</span></div><p id="missionText">Sở hữu 3 bất động sản trước vòng 8 để nhận thưởng 350 xu.</p><div class="bar"><i id="missionBar"></i></div></div>
 <section class="board-card"><div class="board" id="board"><div class="island"><div class="icon">🏝️</div><b>TYCOON ISLAND</b><small>BUILD YOUR EMPIRE</small><div class="mini-city"><i></i><i></i><i></i><i></i></div></div></div></section>
 <div class="roster" id="roster"></div>
-<section class="play-panel"><div class="play-head"><div><b id="turnTitle">Lượt của bạn</b><small id="turnHint">Tung xúc xắc để khám phá ô đất tiếp theo.</small></div><div class="dice-stage"><div class="cube rest" id="cube"><div class="face front" id="f1"></div><div class="face back" id="f6"></div><div class="face right" id="f3"></div><div class="face left" id="f4"></div><div class="face topface" id="f2"></div><div class="face bottom" id="f5"></div></div></div></div>
+<section class="play-panel"><div class="play-head"><div><b id="turnTitle">Lượt của bạn</b><small id="turnHint">Tung xúc xắc để khám phá ô đất tiếp theo.</small></div><div class="dice-stage"><canvas id="diceCanvas" width="220" height="220" aria-label="Xúc xắc 3D"></canvas></div></div>
 <div class="controls"><button class="roll" id="roll">🎲 TUNG XÚC XẮC</button><button class="buy" id="action" disabled>🏡 MUA ĐẤT</button><button class="pass" id="end" disabled>🔨 ĐẤU GIÁ / BỎ</button></div><div class="action-info" id="info">Mỗi lượt là một quyết định: mua đất, nâng cấp tài sản hoặc giữ tiền để tránh rủi ro.</div></section>
 </main><footer>TYCOON ISLAND · INVEST SMART · BUILD BIG</footer></div>
 <div class="toast" id="toast"></div><div class="overlay" id="overlay"><div class="dialog"><div class="symbol" id="dialogIcon">🏝️</div><h3 id="dialogTitle">Sự kiện!</h3><p id="dialogText"></p><div class="choices" id="choices"></div></div></div>
@@ -65,7 +60,43 @@ const players=[{name:"Bạn",emoji:"🧑‍🚀",color:"#38a7e0",cash:1500,pos:0
 let current=0,hasRolled=false,round=1,gameOver=false,missionDone=false,lastRoll=1,landed=false,modalBusy=false;
 const $=id=>document.getElementById(id),board=$("board");
 const pips={1:[4],2:[0,8],3:[0,4,8],4:[0,2,6,8],5:[0,2,4,6,8],6:[0,2,3,5,6,8]};
-function drawCube(n){for(let i=1;i<=6;i++){const el=$("f"+i);el.innerHTML="";const facePips=i===1?pips[n]:pips[i];facePips.forEach(k=>{let dot=document.createElement("i");dot.style.gridColumn=(k%3+1);dot.style.gridRow=(Math.floor(k/3)+1);el.appendChild(dot)})}}
+const diceCanvas=$("diceCanvas"),diceCtx=diceCanvas.getContext("2d");
+let diceAngle={x:-.42,y:-.58,z:-.08},diceAnim=null;
+const dieFaces=[
+ {n:0,normal:[0,0,1],center:[0,0,1],u:[1,0,0],v:[0,-1,0]},
+ {n:0,normal:[0,0,-1],center:[0,0,-1],u:[-1,0,0],v:[0,-1,0]},
+ {n:3,normal:[1,0,0],center:[1,0,0],u:[0,0,-1],v:[0,-1,0]},
+ {n:4,normal:[-1,0,0],center:[-1,0,0],u:[0,0,1],v:[0,-1,0]},
+ {n:2,normal:[0,-1,0],center:[0,-1,0],u:[1,0,0],v:[0,0,1]},
+ {n:5,normal:[0,1,0],center:[0,1,0],u:[1,0,0],v:[0,0,-1]}
+];
+const pipPattern={1:[4],2:[0,8],3:[0,4,8],4:[0,2,6,8],5:[0,2,4,6,8],6:[0,2,3,5,6,8]};
+function rotate3(v,a){let [x,y,z]=v,cy=Math.cos(a.y),sy=Math.sin(a.y),cx=Math.cos(a.x),sx=Math.sin(a.x),cz=Math.cos(a.z),sz=Math.sin(a.z);let x1=x*cy+z*sy,z1=-x*sy+z*cy;let y2=y*cx-z1*sx,z2=y*sx+z1*cx;return [x1*cz-y2*sz,x1*sz+y2*cz,z2]}
+function project3(v){let p=rotate3(v,diceAngle),k=145/(4.6-p[2]);return [110+p[0]*k,106+p[1]*k,p[2]]}
+function drawDie(value=1){
+ const ctx=diceCtx;if(!ctx)return;ctx.clearRect(0,0,220,220);
+ let visible=dieFaces.map(face=>{let normal=rotate3(face.normal,diceAngle);let center=rotate3(face.center,diceAngle);return {face,normal,depth:center[2]}}).filter(o=>o.normal[2]>.015).sort((a,b)=>a.depth-b.depth);
+ ctx.save();ctx.shadowColor="rgba(24,48,69,.28)";ctx.shadowBlur=13;ctx.shadowOffsetY=8;
+ visible.forEach(({face})=>{
+  const corners=[[-1,-1],[1,-1],[1,1],[-1,1]].map(([a,b])=>[face.center[0]+face.u[0]*a+face.v[0]*b,face.center[1]+face.u[1]*a+face.v[1]*b,face.center[2]+face.u[2]*a+face.v[2]*b]).map(project3);
+  ctx.beginPath();ctx.moveTo(corners[0][0],corners[0][1]);corners.slice(1).forEach(p=>ctx.lineTo(p[0],p[1]));ctx.closePath();
+  let grad=ctx.createLinearGradient(corners[0][0],corners[0][1],corners[2][0],corners[2][1]);grad.addColorStop(0,"#ffffff");grad.addColorStop(.55,"#f3f7fa");grad.addColorStop(1,"#dce6ee");ctx.fillStyle=grad;ctx.fill();ctx.shadowColor="transparent";ctx.lineWidth=3.2;ctx.strokeStyle="#b9c9d5";ctx.stroke();
+  let number=face.n===0?(face.normal[2]>0?value:7-value):face.n;
+  (pipPattern[number]||[]).forEach(k=>{let a=((k%3)-1)*.48,b=(Math.floor(k/3)-1)*.48;let local=[face.center[0]+face.u[0]*a+face.v[0]*b,face.center[1]+face.u[1]*a+face.v[1]*b,face.center[2]+face.u[2]*a+face.v[2]*b];let q=project3(local);ctx.beginPath();ctx.arc(q[0],q[1],4.2,0,Math.PI*2);ctx.fillStyle="#183b57";ctx.fill();ctx.beginPath();ctx.arc(q[0]-1,q[1]-1,1.2,0,Math.PI*2);ctx.fillStyle="#718ba0";ctx.fill()});
+ });
+ ctx.restore();
+}
+function drawCube(n){drawDie(n)}
+function animateDie(n,done){
+ const start={...diceAngle},target={x:-.42,y:-.58,z:-.08},t0=performance.now(),duration=1500;
+ $("#roll").disabled=true;
+ function frame(now){let t=Math.min(1,(now-t0)/duration),ease=1-Math.pow(1-t,4);
+  diceAngle={x:start.x+Math.PI*8*ease+(target.x-start.x)*ease,y:start.y+Math.PI*10*ease+(target.y-start.y)*ease,z:start.z+Math.PI*6*ease+(target.z-start.z)*ease};
+  drawDie(n);
+  if(t<1)requestAnimationFrame(frame);else{diceAngle=target;drawDie(n);done()}
+ }
+ requestAnimationFrame(frame);
+}
 function build(){spaces.forEach((s,i)=>{let el=document.createElement("div");el.className="tile "+s[1];el.id="tile"+i;el.style.gridRow=cells[i][0];el.style.gridColumn=cells[i][1];if(s[5])el.style.setProperty("--c",s[5]);el.innerHTML='<span class="ico">'+s[2]+'</span><span>'+s[0]+'</span>'+(s[3]?'<small>'+s[3]+' xu</small>':'')+'<i class="owner" id="owner'+i+'" hidden></i><span id="building'+i+'" class="building"></span>';board.appendChild(el)});players.forEach((p,i)=>{let el=document.createElement("div");el.className="pawn";el.id="pawn"+i;el.textContent=p.emoji;board.appendChild(el)});drawCube(1)}
 function ownerOf(k){return players.findIndex(p=>p.lands.includes(k))}
 function say(t){$("info").innerHTML=t}

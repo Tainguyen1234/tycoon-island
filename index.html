@@ -2,7 +2,7 @@
 <html lang="vi">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><meta name="theme-color" content="#10263b">
-<title>TYCOON ISLAND — V0.3</title>
+<title>TYCOON ISLAND — V0.4</title>
 <style>
 :root{--navy:#10263b;--ink:#1c3045;--muted:#718398;--gold:#f4bd4e;--mint:#75d6b0;--line:#e7edf2}
 *{box-sizing:border-box}body{margin:0;background:#f1f5f8;color:var(--ink);font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;padding:0 0 24px}
@@ -26,9 +26,30 @@ footer{text-align:center;color:#93a3b2;font-size:9px;padding:14px}
 .toast{position:fixed;left:50%;bottom:18px;transform:translate(-50%,100px);background:#10263b;color:#fff;padding:11px 15px;border-radius:13px;font-size:12px;font-weight:800;transition:.25s;z-index:9}.toast.show{transform:translate(-50%,0)}
 @media(min-width:600px){.top{padding-left:26px;padding-right:26px}.players{grid-template-columns:repeat(4,1fr)}.tile{border-radius:12px}.card{padding:15px}}
 @media(max-width:360px){main{padding:0 8px}.board{gap:3px;padding:5px}.tile{border-radius:6px}.island{inset:17%}.buttons{gap:5px}button{font-size:9px}}
+
+/* V0.4 — dimensional island board */
+.board{background:radial-gradient(ellipse at 50% 50%,#c5e8e7 0,#b6dce1 55%,#9bcbd5 100%);box-shadow:inset 0 0 0 2px #f7ffff,0 7px 0 #82b7c5,0 13px 22px #31586a25}
+.board:before{content:"";position:absolute;inset:3%;border:1px dashed #ffffff8c;border-radius:14px;pointer-events:none;z-index:0}
+.tile{border-color:#fff;box-shadow:0 3px 0 #a8bfca,0 5px 8px #36566b24,inset 0 1px 0 #fff; background:linear-gradient(145deg,#fff 0%,#f5f8fb 72%,#e7eef3 100%)}
+.tile:after{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(125deg,#ffffff75,transparent 48%);pointer-events:none}
+.tile.property:before{height:6px;box-shadow:0 2px 3px #29445a22}
+.tile.owned-level{background:linear-gradient(145deg,#fff9e9,#ffe8b5);box-shadow:0 3px 0 #d5ad60,0 6px 10px #9b77322b}
+.island{background:radial-gradient(ellipse at 35% 20%,#fff9d9 0%,#ffe8a8 48%,#f2c35f 100%);border:3px solid #fff8df;box-shadow:inset 0 -9px 0 #dfa642,inset 0 3px 8px #fff9,0 7px 0 #d49b3d,0 12px 18px #48657735}
+.island .planet{filter:drop-shadow(0 5px 0 #d49c3d) drop-shadow(0 8px 8px #8d6a2944);animation:islandBob 3s ease-in-out infinite}
+.island b{text-shadow:0 1px #fff7}
+.buildings{height:29%;bottom:7%;gap:4px;opacity:.9;filter:drop-shadow(0 3px 2px #8d622b44)}
+.buildings i{width:13px;border:1px solid #fff;border-bottom:0;background:linear-gradient(90deg,#f8fbff,#ffd77e 48%,#e99a48);box-shadow:inset 3px 0 #fff9,inset -2px 0 #d78d43}
+.buildings i:nth-child(3){width:17px}
+.pawn{font-size:clamp(18px,4.5vw,27px);filter:drop-shadow(0 3px 0 #ffffff) drop-shadow(0 6px 3px #29415a77);z-index:6}
+.dice{min-width:54px;text-align:center;color:#183b57;text-shadow:0 1px #fff}
+@keyframes islandBob{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-5px) rotate(2deg)}}
+@keyframes propertyPop{0%{transform:scale(.7)}70%{transform:scale(1.18)}100%{transform:scale(1)}}
+.level-building{position:absolute;right:2px;bottom:2px;font-size:clamp(8px,2vw,12px);filter:drop-shadow(0 1px 1px #fff);animation:propertyPop .3s ease-out}
+.player.active{box-shadow:0 0 0 2px #ffe7a6,0 5px 13px #b58c3b1c}
+.roll:not(:disabled){box-shadow:0 4px 0 #d69c36,0 7px 12px #b9812530}
 </style></head>
 <body><div class="app">
-<header class="top"><div class="toprow"><div class="brand">TYCOON ISLAND<small>ROLL THE DICE · BUILD YOUR EMPIRE</small></div><div class="badge">✨ VERSION 0.3</div></div></header>
+<header class="top"><div class="toprow"><div class="brand">TYCOON ISLAND<small>ROLL THE DICE · BUILD YOUR EMPIRE</small></div><div class="badge">🏝️ ISLAND EDITION 0.4</div></div></header>
 <main><div class="balance"><div><span>VỐN CỦA BẠN</span><strong id="balance">🪙 1.200 xu</strong></div><div class="round" id="round">VÁN 01 · LƯỢT 1</div></div>
 <section class="card"><div class="board" id="board"><div class="island"><div class="planet">🏝️</div><b>TYCOON<br>ISLAND</b><small>BUILD YOUR EMPIRE</small><div class="buildings"><i></i><i></i><i></i><i></i></div></div></div></section>
 <div class="players" id="players"></div>
@@ -47,7 +68,7 @@ function buildBoard(){spaces.forEach((s,i)=>{let d=document.createElement("div")
 function owner(i){return people.findIndex(p=>p.land.includes(i))}
 function say(t){$("message").textContent=t}
 function pop(t){$("toast").textContent=t;$("toast").classList.add("show");setTimeout(()=>$("toast").classList.remove("show"),1900)}
-function render(){ $("players").innerHTML="";people.forEach((p,i)=>{let d=document.createElement("div");d.className="player"+(i===turn?" active":"");d.innerHTML='<span class="face">'+p.e+'</span><div><div class="pname">'+p.n+(p.ai?" · AI":"")+'</div><div class="money">🪙 '+p.cash.toLocaleString("vi-VN")+' xu</div></div>';$("players").appendChild(d);let xy=pos[p.p];$("pawn"+i).style.left=xy[0]+"%";$("pawn"+i).style.top=xy[1]+"%";$("pawn"+i).style.marginLeft=([-8,8,-8,8][i])+"px";$("pawn"+i).style.marginTop=([-7,-7,7,7][i])+"px"});spaces.forEach((s,i)=>{let o=owner(i),el=$("owner"+i);if(o<0)el.hidden=true;else{el.hidden=false;el.style.background=people[o].c} $("stars"+i).textContent=s.level?"★".repeat(s.level):""});$("balance").textContent="🪙 "+people[0].cash.toLocaleString("vi-VN")+" xu";$("turnTitle").textContent="Lượt của "+people[turn].n;$("turnHint").textContent=people[turn].ai?"Đối thủ đang suy nghĩ...":rolled?"Bạn đã di chuyển. Hãy chọn hành động.":"Tung xúc xắc để bắt đầu!";$("round").textContent="VÁN 01 · LƯỢT "+round;$("roll").disabled=rolled||over||people[turn].ai;$("buy").disabled=!rolled||over||people[turn].ai;$("end").disabled=!rolled||over||people[turn].ai}
+function render(){ $("players").innerHTML="";people.forEach((p,i)=>{let d=document.createElement("div");d.className="player"+(i===turn?" active":"");d.innerHTML='<span class="face">'+p.e+'</span><div><div class="pname">'+p.n+(p.ai?" · AI":"")+'</div><div class="money">🪙 '+p.cash.toLocaleString("vi-VN")+' xu</div></div>';$("players").appendChild(d);let xy=pos[p.p];$("pawn"+i).style.left=xy[0]+"%";$("pawn"+i).style.top=xy[1]+"%";$("pawn"+i).style.marginLeft=([-8,8,-8,8][i])+"px";$("pawn"+i).style.marginTop=([-7,-7,7,7][i])+"px"});spaces.forEach((s,i)=>{let o=owner(i),el=$("owner"+i),tile=$("tile"+i);if(o<0)el.hidden=true;else{el.hidden=false;el.style.background=people[o].c}tile.classList.toggle("owned-level",!!s.level);let marker=tile.querySelector(".level-building");if(s.level){if(!marker){marker=document.createElement("span");marker.className="level-building";tile.appendChild(marker)}marker.textContent=s.level>=3?"🏨":s.level===2?"🏢":"🏠"}else if(marker)marker.remove();$("stars"+i).textContent=s.level?"★".repeat(s.level):""});$("balance").textContent="🪙 "+people[0].cash.toLocaleString("vi-VN")+" xu";$("turnTitle").textContent="Lượt của "+people[turn].n;$("turnHint").textContent=people[turn].ai?"Đối thủ đang suy nghĩ...":rolled?"Bạn đã di chuyển. Hãy chọn hành động.":"Tung xúc xắc để bắt đầu!";$("round").textContent="VÁN 01 · LƯỢT "+round;$("roll").disabled=rolled||over||people[turn].ai;$("buy").disabled=!rolled||over||people[turn].ai;$("end").disabled=!rolled||over||people[turn].ai}
 function buyLand(i){let p=people[i],s=spaces[p.p];if(s[1]!=="property"||owner(p.p)>=0||p.cash<s[3])return false;p.cash-=s[3];p.land.push(p.p);render();return true}
 function finishTurn(){turn=(turn+1)%4;if(turn===0)round++;rolled=false;render();if(people[turn].ai)setTimeout(aiTurn,700)}
 function bankrupt(i){let p=people[i];if(p.cash>=0)return;p.land.forEach(k=>spaces[k].level=0);p.land=[];p.cash=0;if(i===0){over=true;say("Bạn đã hết vốn! Hãy tải lại trang để chơi ván mới.")}else{p.ai=true;p.eliminated=true;pop(p.n+" đã phá sản!")}if(people.filter(x=>!x.eliminated).length===1){over=true;say("🏆 "+people.find(x=>!x.eliminated).n+" chiến thắng!")}}

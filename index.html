@@ -21,7 +21,7 @@ footer{text-align:center;color:#91a2b0;font-size:8px;padding:13px}
 @media(min-width:560px){header{padding-left:24px;padding-right:24px}.roster{grid-template-columns:repeat(4,1fr)}.tile{border-radius:10px}.board-card{padding:13px}}
 @media(max-width:360px){main{padding:0 8px}.board{gap:3px;padding:4px}.tile{border-radius:6px}.controls{gap:4px}button{font-size:8px}.mission{padding:8px}}
 </style></head><body><div class="app">
-<header><div class="head"><div class="logo">TYCOON ISLAND<small>ROLL THE DICE · BUILD YOUR EMPIRE</small></div><div class="version">DICE REPAIR · 1.3</div></div></header>
+<header><div class="head"><div class="logo">TYCOON ISLAND<small>ROLL THE DICE · BUILD YOUR EMPIRE</small></div><div class="version">INPUT & DICE FIX · 1.4</div></div></header>
 <main>
 <div class="wallet"><div><label>NGÂN SÁCH CỦA BẠN</label><strong id="balance">🪙 1.500 xu</strong></div><div class="turnno" id="turnNo">VÁN 01<br>LƯỢT 1</div></div>
 <div class="mission"><div class="mission-top"><span>🎯 HỢP ĐỒNG ĐẦU TƯ</span><span id="missionCount">0 / 3</span></div><p id="missionText">Sở hữu 3 bất động sản trước vòng 8 để nhận thưởng 350 xu.</p><div class="bar"><i id="missionBar"></i></div></div>
@@ -58,7 +58,7 @@ const cells=[[1,1],[1,2],[1,3],[1,4],[1,5],[1,6],[2,6],[3,6],[4,6],[5,6],[6,6],[
 const xy=cells.map(([r,c])=>[(c-.5)/6*100,(r-.5)/6*100]);
 const players=[{name:"Bạn",emoji:"🧑‍🚀",color:"#38a7e0",cash:1500,pos:0,ai:false,lands:[],rentEarned:0},{name:"Foxi",emoji:"🦊",color:"#f39b43",cash:1500,pos:0,ai:true,lands:[],rentEarned:0},{name:"Mimi",emoji:"🐰",color:"#e77caf",cash:1500,pos:0,ai:true,lands:[],rentEarned:0},{name:"Robo",emoji:"🤖",color:"#8d83e6",cash:1500,pos:0,ai:true,lands:[],rentEarned:0}];
 let current=0,hasRolled=false,round=1,gameOver=false,missionDone=false,lastRoll=1,landed=false,modalBusy=false;
-const $=id=>document.getElementById(id),board=$("board");
+const $=id=>document.getElementById(String(id).replace(/^#/,"")),board=$("board");
 const pips={1:[4],2:[0,8],3:[0,4,8],4:[0,2,6,8],5:[0,2,4,6,8],6:[0,2,3,5,6,8]};
 const diceCanvas=$("diceCanvas"),diceCtx=diceCanvas.getContext("2d");
 let diceAngle={x:-.42,y:-.58,z:-.08},diceAnim=null;
